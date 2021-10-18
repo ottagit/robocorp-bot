@@ -8,16 +8,24 @@
 *** Settings ***
 Documentation     Starter robot for the Beginners' course.
 Library           RPA.Browser.Selenium
+Library           RPA.Robocorp.Vault
 
 
+# +
 *** Keywords ***
-Open The Intranet Website
+Open the intranet website
     Open Available Browser  https://robotsparebinindustries.com/
+    
+*** Keywords ***
+Log in
+    ${secret}=      Get Secret  credentials
+    Input Text      username  ${secret}[username]
+    Input Password  password  ${secret}[password]
+    Submit Form
+    
+# -
 
 *** Tasks ***
 Insert the sales data for the week and export it as a PDF
-    Open The Intranet Website
-
-
-
-
+    Open the intranet website
+    Log in
