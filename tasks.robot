@@ -9,7 +9,11 @@
 Documentation     Starter robot for the Beginners' course.
 Library           RPA.Browser.Selenium
 Library           RPA.Robocorp.Vault
+Library           RPA.HTTP
 
+
+*** Variables ***
+${sales_data}    https://robotsparebinindustries.com/SalesData.xlsx
 
 # +
 *** Keywords ***
@@ -23,8 +27,11 @@ Log in
     Input Password  password  ${secret}[password]
     Submit Form
     Wait Until Page Contains Element   id:sales-form
-    
 # -
+
+*** Keywords ***
+Download the Excel file
+    Download    ${sales_data}   overwrite=True
 
 *** Keywords ***
 Fill and submit the form
@@ -39,4 +46,5 @@ Fill and submit the form
 Insert the sales data for the week and export it as a PDF
     Open the intranet website
     Log in
+    Download the Excel file
     Fill and submit the form
