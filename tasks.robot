@@ -10,6 +10,7 @@ Documentation     Starter robot for the Beginners' course.
 Library           RPA.Browser.Selenium
 Library           RPA.Robocorp.Vault
 Library           RPA.HTTP
+Library           RPA.Excel.Files
 
 
 *** Variables ***
@@ -34,12 +35,22 @@ Download the Excel file
     Download    ${sales_data}   overwrite=True
 
 *** Keywords ***
-Fill and submit the form
-    Input Text    //*[@id="firstname"]  Jane
-    Input Text    //*[@id="lastname"]   Doe
-    Select From List By Value    //*[@id="salestarget"]  10000
-    Input Text    //*[@id="salesresult"]    8000
+Fill and submit the form for one sales person   
+    [Arguments]   ${sales_rep}
+    Input Text    id:firstname  ${sales_rep}[First Name]
+    Input Text    id:lastname  ${sales_rep}[Last Name]
+    Input Text    id:salesresult  ${sales_rep}[Sales]
+    Select From List By Value    salestarget  ${sales_rep}[Sales Target]
     Click Button    Submit
+
+*** Keywords ***
+Fill the form using data from Excel file
+    Open Workbook    SalesData.xlsx
+    ${sales_reps}   Read Worksheet As Table  header=True
+    Close Workbook
+    FOR    ${sales_rep}    IN    @{sales_reps}
+        Fill and submit the form for one sales person  ${sales_rep}
+    END
     
 
 *** Tasks ***
@@ -47,4 +58,4 @@ Insert the sales data for the week and export it as a PDF
     Open the intranet website
     Log in
     Download the Excel file
-    Fill and submit the form
+    Fill the form using data from Excel file
