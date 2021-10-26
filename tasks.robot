@@ -51,7 +51,11 @@ Fill the form using data from Excel file
     FOR    ${sales_rep}    IN    @{sales_reps}
         Fill and submit the form for one sales person  ${sales_rep}
     END
-    
+
+
+*** Keywords ***
+Collect the Results
+    Screenshot    css:div.sales-summary    ${CURDIR}${/}output${/}sales_summary.png
 
 *** Tasks ***
 Insert the sales data for the week and export it as a PDF
@@ -59,3 +63,4 @@ Insert the sales data for the week and export it as a PDF
     Log in
     Download the Excel file
     Fill the form using data from Excel file
+    Collect the Results
