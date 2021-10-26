@@ -11,6 +11,7 @@ Library           RPA.Browser.Selenium
 Library           RPA.Robocorp.Vault
 Library           RPA.HTTP
 Library           RPA.Excel.Files
+Library           RPA.PDF
 
 
 *** Variables ***
@@ -57,6 +58,12 @@ Fill the form using data from Excel file
 Collect the Results
     Screenshot    css:div.sales-summary    ${CURDIR}${/}output${/}sales_summary.png
 
+*** Keywords ***
+Export the Table as a PDF
+    Wait Until Element Is Visible    id:sales-results   
+    ${sales_results_html}   Get Element Attribute   id:sales-results  outerHTML
+    Html To Pdf    ${sales_results_html}}    ${CURDIR}${/}output${/}sales_results.pdf
+
 *** Tasks ***
 Insert the sales data for the week and export it as a PDF
     Open the intranet website
@@ -64,3 +71,4 @@ Insert the sales data for the week and export it as a PDF
     Download the Excel file
     Fill the form using data from Excel file
     Collect the Results
+    Export the Table as a PDF
